@@ -196,7 +196,31 @@ const gameBoard = (() => {
         isGameWon = true;
     }
 
-    return {startGame, currentPlayer};
+    function dispWinner() {
+        modalBtn.innerText = 'Replay';
+        determineWinner();
+        openModal();
+        endRound = true; 
+      }
+  
+    function determineWinner() {
+        const result = modal.querySelector('[data-result');
+        result.innerText = (playerOne.getScore() > playerTwo.getScore()) ? `${playerOne.getName()} Wins!` : (playerOne.getScore() < playerTwo.getScore()) ? `${playerTwo.getName()} Wins!` : "It's a tie";
+      }
+  
+    function openModal() {
+        if(modal == null) return;
+        modal.classList.add('active');
+        overlay.classList.add('active');
+      }
+  
+    function closeModal() {
+        if(modal == null) return;
+        modal.classList.remove('active');
+        overlay.classList.remove('active');
+       }
+  
+      return {startGame, closeModal};
 })();
 
 const displayController = (() => {
