@@ -1,6 +1,4 @@
 
-
-
 const player = (name, sign) => {
     let score = 0;
 
@@ -10,10 +8,70 @@ const player = (name, sign) => {
     const getScore = () => score;
     const resetScore = () => score = 0;
 
-    return {getName, getSign, incrementScore, getScore, resetScore}
-}
+    return {getName,
+            getSign,
+            incrementScore,
+            getScore,
+            resetScore}
+};
 
-
+const init = (() => {
+    const p1field = document.getElementById('p1name');
+    const p2field = document.getElementById('p2name');
+    const aiRadio = document.getElementById('pvai');
+    let pOneName;
+    let pTwoName;
+    
+    function inputFields() {
+      document.querySelector('.names').style.display = 'block';
+      const difficultySelector = document.querySelector('.diffculty-selector');
+      
+      if(aiRadio.checked) {
+        p2field.disabled = true;  
+        p1field.value = 'playerOne';          
+        p2field.value = 'Ai';    
+        pOneName = p1field.value;
+        pTwoName = p2field.value;  
+        difficultySelector.style.display = 'block';
+      }
+  
+      else {
+        p2field.disabled  = false; 
+        p1field.value = 'playerOne';      
+        p2field.value = 'PlayerTwo';        
+        pOneName = p1field.value;
+        pTwoName = p2field.value; 
+        difficultySelector.style.display = 'none';
+      }
+      
+      document.getElementById("playBtn").addEventListener("click", (event) => {
+        event.preventDefault();
+        document.querySelector('.menu').style.display = 'none';
+        document.querySelector('.play-area').style.display = 'block';     
+        gameBoard.startGame();
+      })    
+    }
+    
+    function updateNames() {
+      pOneName = p1field.value;
+      pTwoName = p2field.value;
+    }
+    
+    function getP1Name() {
+      return pOneName;
+    } 
+    
+     function getP2Name() {
+      return pTwoName;
+    } 
+    
+    return {inputFields,
+            updateNames,
+            getP1Name,
+            getP2Name,
+           };
+  })();
+  
 const gameBoard = (() => {
     const cells = document.querySelectorAll('.cell');
     const roundCounter = document.getElementById('roundCounter');
