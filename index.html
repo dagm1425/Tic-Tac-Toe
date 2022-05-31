@@ -9,29 +9,72 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <table>
-        <tr>
-            <td class="cell" id="0"></td>
-            <td class="cell" id="1"></td>
-            <td class="cell" id="2"></td>
-        </tr>
+    <div class="menu">
+        <div class="menu-content">
+            <h1>Tic-Tac-Toe</h1>
+            <h3>Choose Game Mode</h3>
 
-        <tr>
-            <td class="cell" id="3"></td>
-            <td class="cell" id="4"></td>
-            <td class="cell" id="5"></td>
-        </tr>
+            <form class="choose-modes">
+                <div class ="modes">   
+                    <div><label for="pvp">P v P</label><br>
+                    <input type="radio" id="pvp" name="game_modes" value="PvP" onClick='init.inputFields()'><br></div>  
+                    <div><label for="pvai">P v Ai</label><br>
+                    <input type="radio" id="pvai" name="game_modes" value="PvAi" onClick='init.inputFields()'><br></div>
+                </div>
+                
+                <div class='names'>
+                    <input type="text" id="p1name" name="p1name" class="input-fields" onchange="init.updateNames()" required>
+                    <input type="text" id="p2name" name="p2name" class="input-fields" onchange="init.updateNames()" required>
+                    <div class="diffculty-selector"><label for="difficulty">Select difficulty:</label>
+                        <select name="difficulty" id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="impossible">Impossible</option>
+                    </select></div>  
+                    </div><br>
+                <a id="playBtn" href="#">
+                <i class="fas fa-play fa-2x"></i>
+                </a>
+            </form>
+        </div>
+    </div>
 
-        <tr>
-            <td class="cell" id="6"></td>
-            <td class="cell" id="7"></td>
-            <td class="cell" id="8"></td>
-        </tr>
-    </table>
+    <div class="play-area">
+        <div class="scores-container">
+            <div class="playerOne"><span id="playerOne"></span><span id="X"> 0</span></div>
+            <div class="playerTwo"><span id="playerTwo"></span><span id ="O"> 0</span></div>
+        </div>
 
-<button onClick="startGame()">Replay</button>
-<h2>Round <span id="roundCounter">1</span></h2>
-<h3>Player 1 Score<span id="X">0</span></h3>
-<h3>Player 2 Score<span id ='O'>0</span></h3>
+        <div class="gameboard">
+            <table>
+                <tr>
+                    <td class="cell" id="0"></td>
+                    <td class="cell" id="1"></td>
+                    <td class="cell" id="2"></td>
+                </tr>
+
+                <tr>
+                    <td class="cell" id="3"></td>
+                    <td class="cell" id="4"></td>
+                    <td class="cell" id="5"></td>
+                </tr>
+
+                <tr>
+                    <td class="cell" id="6"></td>
+                    <td class="cell" id="7"></td>
+                    <td class="cell" id="8"></td>
+                </tr>
+            </table>
+        </div>
+    <button class="corner all-btn">Home</button>
+    <h2 class="round-counter">Round <span id="roundCounter">1</span></h2>
+    </div>
+
+<div id="modal">
+    <h1 data-result></h1>
+    <div class="btn-container">
+    <button class="all-btn" onClick="gameBoard.startGame()"></button><button class="all-btn">Home</button></div>
+</div>
+<div id="overlay"></div>
 </body>
 </html>
