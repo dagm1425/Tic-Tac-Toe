@@ -111,7 +111,7 @@ const gameBoard = (() => {
             newGame = false;      
         }
 
-        gameboard = new Array(9);
+        gameboard = Array.from(Array(9).keys());
         displayController.glowPlayer(currentPlayer, playerOne);
         if(isGameWon) displayController.clearBoard();
         closeModal(); 
