@@ -75,18 +75,23 @@ const init = (() => {
 const gameBoard = (() => {
     const cells = document.querySelectorAll('.cell');
     const roundCounter = document.getElementById('roundCounter');
-    const p1score = document.getElementById('X');
-    const p2score = document.getElementById('O');
+    const modal = document.getElementById('modal');
+    const modalBtn = modal.querySelector('button');
+    const overlay = document.getElementById('overlay');
 
-    const playerOne = player('tempName', 'X')
-    const playerTwo = player('tempName2', 'O')
-
-    let currentPlayer = playerOne;
     let gameboard;
+    let playerOne;
+    let playerTwo;
+    let currentPlayer;
     let currentIndex;
     let currentSign;
     let winScore;
     let rounds = 1;
+    let endRound = false;
+    let newGame = true;
+    let isGameWon;
+
+
     const winCombos = [
         [0, 1, 2],
         [3, 4, 5],
@@ -98,7 +103,14 @@ const gameBoard = (() => {
         [2, 4, 6]
     ];
 
-    const startGame = () => {
+    function startGame () {
+        if(newGame) {
+            initPlayers();
+            displayController.clearBoard();
+            endRound = true;
+            newGame = false;      
+        }
+
         gameboard = new Array(9);
         displayController.clearBoard()
         let endRound = false;
@@ -115,6 +127,13 @@ const gameBoard = (() => {
             playerOne.resetScore()
             playerTwo.resetScore()
         }   
+    }
+
+    function initPlayers() {
+        playerOne = player(init.getP1Name(), 'X');
+        playerTwo = player(init.getP2Name(), 'O');
+        currentPlayer = playerOne; 
+        displayController.initPlayerNames(); 
     }
 
     function render(event) {
@@ -184,6 +203,14 @@ const displayController = (() => {
         }) 
     }
 
+    const initPlayerNames = () => {
+        const p1Name = document.getElementById('playerOne');
+        const p2Name = document.getElementById('playerTwo');
+         
+        p1Name.innerText = init.getP1Name();
+        p2Name.innerText = init.getP2Name();  
+    }
+
     const fillCell = (currentIndex, currentSign) => { //notice here u don't need to put gameBoard.
         document.getElementById(currentIndex).innerText = currentSign;
     }
@@ -194,7 +221,13 @@ const displayController = (() => {
         document.getElementById('O').innerText = 0;      
     }
     const resetBoardRound = (roundCounter) => roundCounter.innerText = 0
-    return {clearBoard, fillCell, renderScore, incrementRound, resetBoardScore, resetBoardRound}
+    return {clearBoard,
+            initPlayerNames,
+            fillCell, 
+            renderScore, 
+            incrementRound, 
+            resetBoardScore, 
+            resetBoardRound}
 })();
 
 gameBoard.startGame()
