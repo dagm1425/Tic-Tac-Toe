@@ -156,6 +156,19 @@ const gameBoard = (() => {
         switchTurns();
     }
 
+    function checkTie() {
+        const cellarr = Array.from(cells);
+        return (isGameWon == false && cellarr.every(cell => {return cell.innerText != ''})) ;
+      }
+      
+    function dispTie() {
+        const result = modal.querySelector('[data-result');
+        result.innerText = "It's a tie!";
+        modalBtn.innerText = 'Continue';
+        openModal(); 
+        isGameWon = true; 
+    }
+
     function switchTurns() {
         currentPlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
     }
