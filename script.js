@@ -112,20 +112,17 @@ const gameBoard = (() => {
         }
 
         gameboard = new Array(9);
-        displayController.clearBoard()
-        let endRound = false;
-
+        if(isGameWon) displayController.clearBoard();
+        closeModal(); 
+        isGameWon = false;
+    
         cells.forEach(cell => {
-            cell.addEventListener('click', render, false);
-
+          cell.addEventListener('click', turn, false);
         }) 
-
-        if(endRound == true) {
-            displayController.resetBoardScore()
-            displayController.resetBoardRound(roundCounter)
-            rounds = 1
-            playerOne.resetScore()
-            playerTwo.resetScore()
+    
+        if(endRound) {
+          resetCounts();
+          endRound = false;
         }   
     }
 
@@ -136,56 +133,67 @@ const gameBoard = (() => {
         displayController.initPlayerNames(); 
     }
 
-    function render(event) {
-        currentIndex = event.target.id;
-        currentSign = currentPlayer.getSign(); // created these vars for use in displaycontroller b/c it couldn't access currentPlayer.getSign()
+    function resetCounts() {
+        rounds = 1;
+        displayController.resetBoardScore();
+        displayController.resetBoardRound(roundCounter);
+        playerOne.resetScore();
+        playerTwo.resetScore();
+    }
 
+    function turn() {
+        if(typeof gameboard[event.target.id] == 'number') render(event.target.id);
+      }
+    
+    function render(index) {
+        currentIndex = index;
+        currentSign = currentPlayer.getSign(); 
         gameboard[currentIndex] = currentSign;
-        displayController.fillCell(currentIndex, currentSign)
-        checkWin(currentPlayer)
-        switchTurns()
+        displayController.fillCell(currentIndex, currentSign);
+        let roundWin = checkWin(gameboard, currentSign);
+        if(roundWin) renderWin(roundWin);
+        if(checkTie()) dispTie();
+        switchTurns();
     }
-    
+
     function switchTurns() {
-        if(currentPlayer == playerOne) {
-            return currentPlayer = playerTwo;
-        }
-        else {
-            return currentPlayer = playerOne;
-        }
+        currentPlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
     }
     
-    function checkWin(currentPlayer) {
-     const moves = gameboard.reduce((a, e, i) => {
-        return (e === currentSign) ? a.concat(i) : a
-     }, []);
-    
-     winCombos.forEach((combo) => {
-        if(combo.every(position => moves.indexOf(position) != -1)) {
-    
-            for(let i = 0; i < combo.length; i++) {
-                document.getElementById(`${combo[i]}`).style.backgroundColor = 
-                currentPlayer == playerOne ? 'lightblue' : 'red';         
-            }
-            cells.forEach(cell => cell.removeEventListener('click', render, false)) 
-            
-            currentPlayer.incrementScore()
-            winScore = currentPlayer.getScore()
-            displayController.renderScore(winScore, currentSign)
-            
-
-            checkRound(rounds)
-            displayController.incrementRound(roundCounter)
-            rounds++
-            setTimeout(startGame, 1500)
-            // return roundWinner
+    function checkWin(board, playerSign) {
+        let roundWon = null 
+        const moves = board.reduce((a, e, i) => {
+          return (e === playerSign) ? a.concat(i) : a
+        }, []);
+          
+          for(let [index, combo] of winCombos.entries()) { 
+            if(combo.every(position => moves.indexOf(position) != -1)) {
+              roundWon = {index: index};
+              break;
+            }        
+          }
+            return roundWon;
         }
-     })
-    }
+      
+    function renderWin(roundWin) {
+        let winCombo = winCombos[roundWin.index];
 
-    function checkRound(rounds) {
-        if(rounds == 3) alert ('gameover')
-        endRound = true;
+        cells.forEach(cell => cell.removeEventListener('click', turn, false));
+
+        currentPlayer.incrementScore();
+        winScore = currentPlayer.getScore();
+    
+        displayController.renderScore(winScore, currentSign);      
+
+        rounds++;
+
+        if(rounds <= 3) {
+            setTimeout(displayController.incrementRound, 3500, roundCounter);
+            setTimeout(startGame, 2000);
+        }
+        else dispWinner();
+
+        isGameWon = true;
     }
 
     return {startGame, currentPlayer};
