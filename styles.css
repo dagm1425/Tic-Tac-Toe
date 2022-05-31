@@ -168,3 +168,55 @@ table tr td:last-child {
   opacity: 1;
   pointer-events: all;
 }
+
+
+.animateMarker {
+    animation: animateMarker 0.3s forwards;
+}
+  
+@keyframes animateMarker {
+    0% {font-size: 0;}
+    60% {font-size: 3.75rem;}
+    100% {font-size: 3rem;}
+}
+  
+.markWin {
+    animation: markWin 1.6s forwards;
+}
+  
+@keyframes markWin {
+    0% {font-size: 3rem;}
+    50% {font-size: 4.5rem; color: rgb(63, 195, 128);}
+    100% {font-size: 3rem; color: #000;}
+}
+  
+.fadeMarkers {
+    animation-name: fadeMarkers;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+} 
+  
+@keyframes fadeMarkers {
+    0% {font-size: 3rem;}
+    100% {font-size: 0;
+          color: transparent;}
+}
+  
+.glow-player {
+    animation: glow-score 0.5s forwards;
+}
+  
+.remove-glow {
+    animation: glow-score 0.2s forwards reverse;
+}
+  
+@keyframes glow-player {
+    0% {box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+         background-color: none;}
+    100% {color: rgb(0, 0, 0);
+          border: none;
+          outline: none;
+          background-color: rgba(255, 99, 71, 0.5);
+          box-shadow: 0 0 5px rgba(255, 99, 71, 0.7), 0 0 35px rgba(255, 99, 71, 0.8);} 
+}
+  

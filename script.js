@@ -112,6 +112,7 @@ const gameBoard = (() => {
         }
 
         gameboard = new Array(9);
+        displayController.glowPlayer(currentPlayer, playerOne);
         if(isGameWon) displayController.clearBoard();
         closeModal(); 
         isGameWon = false;
@@ -171,6 +172,7 @@ const gameBoard = (() => {
 
     function switchTurns() {
         currentPlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;
+        displayController.glowPlayer(currentPlayer, playerOne);
     }
     
     function checkWin(board, playerSign) {
@@ -190,6 +192,7 @@ const gameBoard = (() => {
       
     function renderWin(roundWin) {
         let winCombo = winCombos[roundWin.index];
+        displayController.markWin(winCombo);      
 
         cells.forEach(cell => cell.removeEventListener('click', turn, false));
 
@@ -237,15 +240,17 @@ const gameBoard = (() => {
 })();
 
 const displayController = (() => {
-    const cells = document.querySelectorAll('.cell');
     const clearBoard = () => {
+        const cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
+          cell.classList.remove('animateMarker');
+          cell.classList.remove('markWin');
+          cell.classList.add('fadeMarkers');
+          window.setTimeout(() => {
+            cell.classList.remove('fadeMarkers');
             cell.innerText = '';
-            cell.style.backgroundColor = "transparent";
-            // cell.style.cssText = "animation: fade-out 0.3s ease forwards;";
-            // cell.addEventListener("animationend", () => {
-            //         square.innerHTML = "";
-        }) 
+            }, 1000)
+        });    
     }
 
     const initPlayerNames = () => {
@@ -256,11 +261,39 @@ const displayController = (() => {
         p2Name.innerText = init.getP2Name();  
     }
 
-    const fillCell = (currentIndex, currentSign) => { //notice here u don't need to put gameBoard.
+    const glowPlayer = (currentPlayer, playerOne) => {
+        let score1 = document.querySelector('.playerOne');
+        let score2 = document.querySelector('.playerTwo');
+  
+        if(currentPlayer == playerOne) {
+          score1.classList.add('glow-score');
+          score1.classList.remove('remove-glow');
+          score2.classList.add('remove-glow'); 
+          score2.classList.remove('glow-score');  
+        } 
+        else {
+          score2.classList.remove('remove-glow'); 
+          score2.classList.add('glow-score');
+          score1.classList.add('remove-glow'); 
+          score1.classList.remove('glow-score');
+        }
+    }
+
+    function fillCell(currentIndex, currentSign) { 
+        document.getElementById(currentIndex).classList.add('animateMarker');
         document.getElementById(currentIndex).innerText = currentSign;
     }
+
     const renderScore = (winScore, currentSign) => document.getElementById(currentSign).innerText = ' ' + winScore;
+
+    const markWin = (winCombo) => {
+        for(let i = 0; i < winCombo.length; i++) {      
+          document.getElementById(`${winCombo[i]}`).classList.add('markWin');           
+        }
+    }
+
     const incrementRound = (roundCounter) => roundCounter.innerText = parseInt(roundCounter.innerText) + 1;
+    
     const resetBoardScore = () => {
         document.getElementById('X').innerText = 0;
         document.getElementById('O').innerText = 0;      
@@ -268,18 +301,16 @@ const displayController = (() => {
     const resetBoardRound = (roundCounter) => roundCounter.innerText = 0
     return {clearBoard,
             initPlayerNames,
+            glowPlayer,
             fillCell, 
             renderScore, 
+            markWin,
             incrementRound, 
             resetBoardScore, 
             resetBoardRound}
 })();
 
-gameBoard.startGame()
 
-// function updateScore(roundWinner) {
-//     document.getElementById('roundWinner.player').innerText = 
-// }
 
 
 
