@@ -66,14 +66,15 @@
                 </tr>
             </table>
         </div>
-    <button class="corner all-btn">Home</button>
+    <button class="corner all-btn onClick="displayController.returnHome();gameBoard.startNewGame()">Home</button>
     <h2 class="round-counter">Round <span id="roundCounter">1</span></h2>
     </div>
 
 <div id="modal">
     <h1 data-result></h1>
     <div class="btn-container">
-    <button class="all-btn" onClick="gameBoard.startGame()"></button><button class="all-btn">Home</button></div>
+        <button class="all-btn" onClick="gameBoard.startGame()"></button>
+        <button class="all-btn" onClick="displayController.returnHome();gameBoard.startNewGame()">Home</button></div>
 </div>
 <div id="overlay"></div>
 </body>

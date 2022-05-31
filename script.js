@@ -141,6 +141,10 @@ const gameBoard = (() => {
         playerOne.resetScore();
         playerTwo.resetScore();
     }
+ 
+    function startNewGame() {
+        newGame = true;
+    }
 
     function turn(event) {
         if(typeof gameboard[event.target.id] == 'number') render(event.target.id);
@@ -236,21 +240,22 @@ const gameBoard = (() => {
         overlay.classList.remove('active');
        }
   
-      return {startGame, closeModal};
+      return {startGame, closeModal, startNewGame};
 })();
 
 const displayController = (() => {
+    
     const clearBoard = () => {
-        const cells = document.querySelectorAll('.cell');
-        cells.forEach(cell => {
-          cell.classList.remove('animateMarker');
-          cell.classList.remove('markWin');
-          cell.classList.add('fadeMarkers');
-          window.setTimeout(() => {
-            cell.classList.remove('fadeMarkers');
-            cell.innerText = '';
-            }, 1000)
-        });    
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => {
+        cell.classList.remove('animateMarker');
+        cell.classList.remove('markWin');
+        cell.classList.add('fadeMarkers');
+        window.setTimeout(() => {
+        cell.classList.remove('fadeMarkers');
+        cell.innerText = '';
+        }, 1000)
+    });    
     }
 
     const initPlayerNames = () => {
@@ -298,7 +303,15 @@ const displayController = (() => {
         document.getElementById('X').innerText = 0;
         document.getElementById('O').innerText = 0;      
     }
-    const resetBoardRound = (roundCounter) => roundCounter.innerText = 0
+    const resetBoardRound = (roundCounter) => roundCounter.innerText = 1;
+
+    const returnHome =() => {
+        gameBoard.closeModal();
+        gameBoard.startGame();
+        document.querySelector('.menu').style.display = 'block';
+        document.querySelector('.play-area').style.display = 'none';   
+    }
+
     return {clearBoard,
             initPlayerNames,
             glowPlayer,
@@ -307,7 +320,9 @@ const displayController = (() => {
             markWin,
             incrementRound, 
             resetBoardScore, 
-            resetBoardRound}
+            resetBoardRound,
+            returnHome,
+            }
 })();
 
 
