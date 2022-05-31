@@ -141,7 +141,7 @@ const gameBoard = (() => {
         playerTwo.resetScore();
     }
 
-    function turn() {
+    function turn(event) {
         if(typeof gameboard[event.target.id] == 'number') render(event.target.id);
       }
     
