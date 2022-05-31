@@ -1,69 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Righteous', cursive;
+}
+
+.menu {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 22px;
+}
+
+.menu h1 {
+  margin-bottom: 3rem;
+}
+
+.modes {
+  margin-top: 1.75rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.names {
+  display: none;
+}
+
+.input-fields {
+  font-size: 0.75em;
+  text-align: center;
+  padding: 2px;
+  margin-top: 0.25em;
+}
+
+.diffculty-selector {
+  margin-top: 1.25rem;
+}
+
+option, select {
+  font-size: 18px;
+}
+
+#playBtn {
+  font-size: inherit;
+  color: inherit;
+}
+
+.play-area {
+  display: none;
+}
+
+.scores-container {
+  display: flex;
+  justify-content: space-around;
+  max-width: 65%;
+  margin: 4rem auto 3rem;
+}
+
+.scores-container > div {
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 0.75rem;
+  border-radius: 25px;
+}
+
+.scores-container span {
+  font-size: 1.25rem;
+}
+
+.gameboard {
+  background: rgb(255,255,255);
+  margin: auto;
+  width: fit-content;
+  margin-bottom: 3rem;
+}
+
 table {
-    border-collapse: collapse;
-    margin: 70px auto 0;
+  border-collapse: collapse;
 }
 
 td {
-    font-size: 2.5rem;
-    height: 120px;
-    width: 120px;
-    padding: 1rem;
-    border: 1px solid gray;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
+  font-size: 3rem;
+  height: 160px;
+  width: 160px;
+  padding: 1rem;
+  border: 4px solid rgba(0, 0, 0, 0.8);
+  text-align: center;
+  vertical-align: middle;
+  transition: 100ms;
+  cursor: pointer;
 }
 
 table tr:first-child td {
-    border-top: 0;
+  border-top: 0;
 }
 
 table tr:last-child td {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 table tr td:first-child {
-    border-left: 0;
+  border-left: 0;
 }
 
 table tr td:last-child {
-    border-right: 0;
+  border-right: 0;
 }
 
-/* .winMoves {
-    background-color: blanchedalmond;
-    transform: scale(1.05);
-    transition: ease-in;
-} */
+.round-counter {
+  text-align: center;
+  margin-bottom: 3rem;
+}
 
+.btn-container {
+  width: 40vh;
+  display: flex;
+  margin-top: 1.5rem;
+  justify-content: space-around;
+}
 
-. {
-    /* Set the default background color */
-    background-color: white;     /* Enable the positioning of the pseudo element */
-    position: relative;
-    
-    &::after {
-      /* Set the new background color */
-      background-color: black;     /* Render the pseudo element */
-      content: "";                 /* Cover the entire page with the pseudo element */
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;    /* Render the new background color beneath the page content */
-      z-index: -1;    /* Toggle opacity between 0 and 1 (with styled-components) */
-      opacity: ${props => props.darkMode ? 1 : 0};    /* Animate opacity changes */
-      transition: opacity 300ms;
-    }
-  } 
+.all-btn {
+  font-size: 1rem;
+  padding: 6px;
+  border-radius: 30px;
+  cursor: pointer;
+}
 
-  @keyframes example {
-    from {background-color: transparent;}
-    to {background-color: yellow;}
-  }
-  
-  /* The element to apply the animation to */
-  .winMoves {
-    animation-name: example;
-    animation-duration: 2s;
-  }
+.corner {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+#modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-out;
+  padding: 1rem;
+  border: none;
+  z-index: 10;
+  text-align: center;
+}
+
+#modal.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  transition: 200ms ease-out;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+#overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
